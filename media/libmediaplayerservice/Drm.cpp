@@ -328,8 +328,11 @@ status_t Drm::getKeyRequest(Vector<uint8_t> const &sessionId,
 status_t Drm::provideKeyResponse(Vector<uint8_t> const &sessionId,
                                  Vector<uint8_t> const &response,
                                  Vector<uint8_t> &keySetId) {
+    ALOGE("Drm::provideKeyResponse+++++++++++++++++++++");
+
     Mutex::Autolock autoLock(mLock);
 
+    ALOGE("Drm::provideKeyResponse-----------------------------------");
     if (mInitCheck != OK) {
         return mInitCheck;
     }
@@ -602,8 +605,9 @@ status_t Drm::decrypt(Vector<uint8_t> const &sessionId,
                       Vector<uint8_t> const &input,
                       Vector<uint8_t> const &iv,
                       Vector<uint8_t> &output) {
+    ALOGE("Drm::decrypt+++++++++++++++++++++++++++++++");
     Mutex::Autolock autoLock(mLock);
-
+    ALOGE("Drm::decrypt-------------------------------");
     if (mInitCheck != OK) {
         return mInitCheck;
     }

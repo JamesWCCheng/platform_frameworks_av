@@ -65,9 +65,11 @@ status_t DrmPlugin::provideKeyResponse(
         Vector<uint8_t>& keySetId) {
     sp<Session> session = mSessionLibrary->findSession(scope);
     status_t res = session->provideKeyResponse(response);
+    ALOGE("DrmPlugin::provideKeyResponse +++++++++++++++");
     if (res == android::OK) {
         keySetId.clear();
     }
+    ALOGE("DrmPlugin::provideKeyResponse -------------");
     return res;
 }
 

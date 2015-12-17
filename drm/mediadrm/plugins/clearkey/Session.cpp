@@ -47,16 +47,23 @@ status_t Session::provideKeyResponse(const Vector<uint8_t>& response) {
             reinterpret_cast<const char*>(response.array()), response.size());
     KeyMap keys;
 
+    ALOGE("Session::provideKeyResponse+++++++++++++++++++++");
     Mutex::Autolock lock(mMapLock);
+    ALOGE("Session::provideKeyResponse-----------------------------------");
     JsonWebKey parser;
+    ALOGE("Session::provideKeyResponse extractKeysFromJsonWebKeySet+++++++++++++++");
     if (parser.extractKeysFromJsonWebKeySet(responseString, &keys)) {
+        ALOGE("Session::provideKeyResponse extractKeysFromJsonWebKeySet in+++++++++++++++");
         for (size_t i = 0; i < keys.size(); ++i) {
             const KeyMap::key_type& keyId = keys.keyAt(i);
             const KeyMap::value_type& key = keys.valueAt(i);
             mKeyMap.add(keyId, key);
+            ALOGE("Session::provideKeyResponse keyId = %s, key = %s in+++++++++++++++", keyId.array(), key.array());
         }
+        ALOGE("Session::provideKeyResponse extractKeysFromJsonWebKeySet---------------");
         return android::OK;
     } else {
+      ALOGE("Session::provideKeyResponse extractKeysFromJsonWebKeySet-----ERROR_DRM_UNKNOWN----------");
         return android::ERROR_DRM_UNKNOWN;
     }
 }
@@ -65,11 +72,14 @@ status_t Session::decrypt(
         const KeyId keyId, const Iv iv, const void* source,
         void* destination, const SubSample* subSamples,
         size_t numSubSamples, size_t* bytesDecryptedOut) {
+    ALOGE("Session::decryp+++++++++++++++++++++");
     Mutex::Autolock lock(mMapLock);
 
+    ALOGE("Session::decryp keyId = %s in+++++++++++++++", keyId);
     Vector<uint8_t> keyIdVector;
     keyIdVector.appendArray(keyId, kBlockSize);
     if (mKeyMap.indexOfKey(keyIdVector) < 0) {
+        ALOGE("Session::decryp gg-----------------------------------");
         return android::ERROR_DRM_NO_LICENSE;
     }
 

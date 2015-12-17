@@ -57,6 +57,10 @@ bool JsonWebKey::extractKeysFromJsonWebKeySet(const String8& jsonWebKeySet,
         return false;
     }
 
+    for (int i = 0; i < mJsonObjects.size(); i++) {
+      ALOGE("JsonWebKey::extractKeysFromJsonWebKeySet %d +++++++++++++ = %s", i, (const char*)mJsonObjects[i]);
+    }
+
     // mJsonObjects[0] contains the entire JSON Web Key Set, including
     // all the base64 encoded keys. Each key is also stored separately as
     // a JSON object in mJsonObjects[1..n] where n is the total
@@ -78,7 +82,7 @@ bool JsonWebKey::extractKeysFromJsonWebKeySet(const String8& jsonWebKeySet,
 
         if (findKey(mJsonObjects[i], &encodedKeyId, &encodedKey)) {
             if (encodedKeyId.isEmpty() || encodedKey.isEmpty()) {
-                ALOGE("Must have both key id and key in the JsonWebKey set.");
+                ALOGE("Must have  both key id and key in the JsonWebKey set.");
                 continue;
             }
 
